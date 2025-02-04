@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl_main.c                                         :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/23 22:10:39 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/04 19:00:02 by jemustaj         ###   ########.fr       */
+/*   Created: 2025/02/04 19:17:07 by jemustaj          #+#    #+#             */
+/*   Updated: 2025/02/04 21:29:50 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libgnl.h"
 
-int	main(void)
+size_t	ft_strlen(char *s)
 {
-	int	fd;
-	char	*line;
+	int	i;
 
-	fd = open ("toyou.txt", O_RDONLY);
-	line = get_next_line(fd);
-	while (line != '\0')
-	{
-		printf("%s", line);
-		*line++;
-	}
-	free (line);
-	close (fd);
-	return (0);
+	i = 0;
+	while (s != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	char	*res;
+
+	res = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!res)
+		return (NULL);
+	if (!s1 || !s2)
+		return (NULL);
+	while (s1)
+		*res++ = *s1++;
+	while (s2)
+		*res++ = *s2++;
+	res = '\0';
+	return (res);
 }
