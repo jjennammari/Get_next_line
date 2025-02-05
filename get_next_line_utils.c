@@ -6,18 +6,18 @@
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 19:17:07 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/04 21:29:50 by jemustaj         ###   ########.fr       */
+/*   Updated: 2025/02/05 22:47:18 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libgnl.h"
 
-size_t	ft_strlen(char *s)
+size_t	ft_strlen(const char *s)
 {
 	int	i;
 
 	i = 0;
-	while (s != '\0')
+	while (s[i])
 		i++;
 	return (i);
 }
@@ -35,6 +35,39 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		*res++ = *s1++;
 	while (s2)
 		*res++ = *s2++;
-	res = '\0';
+	res = NULL;
 	return (res);
+}
+
+size_t	ft_strclen(char *s, char c)
+{
+	size_t	i;
+
+	if (!s || !c)
+		return (0);
+	i = 0;
+	while (s[i] || s[i] != c)
+		i++;
+	return (i);
+}
+
+int	find_newline(char **line)
+{
+	int	i;
+	char	*c;
+
+	if (!line)
+		return (0);
+	i = 0;
+	c = "\n";
+	while (line[i])
+	{
+		if (line[i] == c)
+		{
+			i++;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
