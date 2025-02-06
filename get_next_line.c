@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 22:08:45 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/05 22:22:18 by jemustaj         ###   ########.fr       */
+/*   Updated: 2025/02/06 20:49:59 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 char	*get_next_line(int fd)
 {
-	int	c;
-	char	*line;
+	int			c;
+	char		*line;
 	static char	*stash;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	c = 0;
-	line = read_fd(fd, &line, &c);
-	stash = create_stash(&line, &stash);
+	line = NULL;
+	read_fd(fd, &line, &c);
+	create_stash(&line, &stash);
 	return (line);
 }
 
@@ -35,10 +36,12 @@ char	*read_fd(int fd, char **line, int *c)
 		return (NULL);
 	while (!find_newline(line))
 	{
-		*c = read(fd, &buff, BUFFER_SIZE);
-		if (c == -1)
+		*c = read(fd, buff, BUFFER_SIZE);
+		if (*c == -1)
 			return (free(buff), NULL);
-		line = ft_strjoin(*line, buff);
+		if (*line == NULL)
+			*line = malloc(sizeof(char) * BUFFER_SIZE + 1);
+		ft_strjoin(*line, buff);
 		free (buff);
 	}
 	if (buff)

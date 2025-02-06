@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 19:17:07 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/05 22:47:18 by jemustaj         ###   ########.fr       */
+/*   Updated: 2025/02/06 22:38:43 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,18 @@ size_t	ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
+	if (s[i] == '\0')
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
 }
-
+// the problem is that I cannot calculate empty line in the first time
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*res;
 
-	res = malloc ((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!res)
 		return (NULL);
 	if (!s1 || !s2)
@@ -53,7 +55,7 @@ size_t	ft_strclen(char *s, char c)
 
 int	find_newline(char **line)
 {
-	int	i;
+	int		i;
 	char	*c;
 
 	if (!line)
