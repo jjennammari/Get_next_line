@@ -5,56 +5,45 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/23 22:08:45 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/06 20:49:59 by jemustaj         ###   ########.fr       */
+/*   Created: 2025/02/09 19:27:39 by jemustaj          #+#    #+#             */
+/*   Updated: 2025/02/09 23:32:57 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libgnl.h"
 
-char	*get_next_line(int fd)
+char	*get_next_line(fd)
 {
-	int			c;
-	char		*line;
+	char	*line;
 	static char	*stash;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
-		return (NULL);
-	c = 0;
 	line = NULL;
-	read_fd(fd, &line, &c);
-	create_stash(&line, &stash);
-	return (line);
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0 // or &line?, 0))
+		return (NULL);
+	stash = read_fd(fd, stash);
 }
 
-char	*read_fd(int fd, char **line, int *c)
+char	*read_fd(int fd, char *stash)
 {
 	char	*buff;
+	size_t	readed;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!stash)
+
+	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buff)
 		return (NULL);
-	while (!find_newline(line))
+	readed = 1;
+	while (readed > 0)
 	{
-		*c = read(fd, buff, BUFFER_SIZE);
-		if (*c == -1)
+		readed = read(fd, buff, BUFFER_SIZE);
+		if (readed == -1)
 			return (free(buff), NULL);
-		if (*line == NULL)
-			*line = malloc(sizeof(char) * BUFFER_SIZE + 1);
-		ft_strjoin(*line, buff);
-		free (buff);
+		else if (readed == 0)
+			break ;
+		buff[readed] = '\0';
+		stash = ft_strjoin(stash, buff);
 	}
-	if (buff)
-		free(buff);
-	return (*line);
-}
-
-char	*create_stash(char **line, char **stash)
-{
-	size_t	c;
-
-	c = ft_strclen(*line, '\n');
-	while (line)
-		*stash++ = line[c++];
-	return (*stash);
+	free(buff);
+	return (stash);
 }

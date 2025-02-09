@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl_main.c                                         :+:      :+:    :+:   */
+/*   libgnd.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/23 22:10:39 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/06 18:24:17 by jemustaj         ###   ########.fr       */
+/*   Created: 2025/02/09 19:28:40 by jemustaj          #+#    #+#             */
+/*   Updated: 2025/02/09 19:53:31 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include "libgnl.h"
+#ifndef LIBGNL_H
+# define LIBGNL_H
 
-int	main(void)
-{
-	int		fd;
-	char	*line;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
 
-	line = NULL;
-	fd = open("toyou.txt", O_RDONLY);
-	line = get_next_line(fd);
-	while (line)
-		printf("%s", line);
-	free (line);
-	close (fd);
-	return (0);
-}
+#include <fcntl.h> // open flags
+#include <stdlib.h> // free, malloc
+#include <unistd.h> // open, read
+
+char	*get_next_line(fd);
+
+#endif
