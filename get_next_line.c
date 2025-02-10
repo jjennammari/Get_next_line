@@ -6,44 +6,101 @@
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:27:39 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/09 23:32:57 by jemustaj         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:21:37 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libgnl.h"
 
-char	*get_next_line(fd)
+char	*read_to_stash(int fd, char *stash);
+char	*extract_line(char *stash);
+char	*update_stash(char *stash);
+
+char	*get_next_line(int fd)
 {
-	char	*line;
+	char		*line;
 	static char	*stash;
 
-	line = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0 // or &line?, 0))
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	stash = read_fd(fd, stash);
+	stash = read_to_stash(fd, stash);
+	if (!stash)
+		return (NULL);
+	line = extract_line(stash);
+	if (!line)
+		return (NULL);
+	stash = update_stash(stash);
+	// need to free something? should i free line in main or here?
+	return (line);
 }
 
-char	*read_fd(int fd, char *stash)
+char	*read_to_stash(int fd, char *stash)
 {
-	char	*buff;
 	size_t	readed;
-
-	if (!stash)
+	char	*buff;
 
 	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!buff)
 		return (NULL);
 	readed = 1;
-	while (readed > 0)
+	while (readed > 0 && (!(!find_newline(buff))))
 	{
 		readed = read(fd, buff, BUFFER_SIZE);
 		if (readed == -1)
 			return (free(buff), NULL);
-		else if (readed == 0)
+		if (readed == 0)
 			break ;
 		buff[readed] = '\0';
-		stash = ft_strjoin(stash, buff);
+		stash = ft_strjoin(stash, buff); //inside mallocing stash and nullterminating
 	}
 	free(buff);
 	return (stash);
+}
+
+char	*extract_line(char *stash)
+{
+	char	*next_line;
+	size_t	line_len;
+	size_t	i;
+
+	line_len = 0;
+	while (stash[line_len] || stash[line_len] != '\n') //or ft_strclen(stash, '\n'), add '\0' in funct.
+		line_len++;
+	next_line = malloc(sizeof(char) * line_len + 1) // or two if '\n' and '\0'?
+	if (!next_line)
+		return (NULL);
+	i = 0;
+	while (stash[i] || stash[i] != '\n')
+		next_line[i++] = stash[i++];
+	if (stash[i] == '\0' || stash[i] == '\n')
+	{
+		next_line[i++] = '\n';
+		next_line[i] = '\0';
+	}
+	//free (should i free next_line here or line somewhere else?)
+	return (next_line);
+}
+
+char	*update_stash(char *stash)
+{
+	char	*next_stash;
+	size_t	line_len;
+	size_t	i;
+	size_t	j;
+
+	if (!stash)
+		return (NULL);
+	i = ft_strlen(stash);
+	line_len = 0;
+	while (stash[line_len] || stash[line_len] != '\n') //or ft_strclen(stash, '\n'), add '\0' in funct.
+		line_len++;
+	next_stash = malloc(sizeof(char) * (i - line_len) + 1);
+	if (!next_stash)
+		return (NULL);
+	line_len++;
+	j = 0;
+	while (stash[line_len])
+		next_stash[j++] = stash[line_len++];
+	next_stash[j] = '\0';
+	return (next_stash);
 }
