@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:28:40 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/10 20:23:34 by jemustaj         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:51:32 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 # include <stdlib.h> // free, malloc
 # include <unistd.h> // open, read
 
+char	*extract_line(char *stash);
 char	*get_next_line(int fd);
+char	*read_to_stash(int fd, char *stash);
+char	*update_stash(char *stash);
+
+int		find_newline(char *str);
+size_t	ft_strclen(char *str, char c);
+char	*ft_strjoin(const char *str1, const char *str2);
+size_t	ft_strlen(char *str);
 
 #endif

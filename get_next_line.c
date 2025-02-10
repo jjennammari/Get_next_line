@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:27:39 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/10 21:21:37 by jemustaj         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:54:25 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_next_line(int fd)
 
 char	*read_to_stash(int fd, char *stash)
 {
-	size_t	readed;
+	ssize_t	readed;
 	char	*buff;
 
 	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
@@ -66,7 +66,7 @@ char	*extract_line(char *stash)
 	line_len = 0;
 	while (stash[line_len] || stash[line_len] != '\n') //or ft_strclen(stash, '\n'), add '\0' in funct.
 		line_len++;
-	next_line = malloc(sizeof(char) * line_len + 1) // or two if '\n' and '\0'?
+	next_line = malloc(sizeof(char) * line_len + 1); // or two if '\n' and '\0'?
 	if (!next_line)
 		return (NULL);
 	i = 0;

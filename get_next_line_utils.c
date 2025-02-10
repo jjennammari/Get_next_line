@@ -6,7 +6,7 @@
 /*   By: jemustaj <jemustaj@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 20:50:23 by jemustaj          #+#    #+#             */
-/*   Updated: 2025/02/10 21:40:53 by jemustaj         ###   ########.fr       */
+/*   Updated: 2025/02/10 21:51:12 by jemustaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strjoin(const char *str1, const char *str2)
 	return (dest);
 }
 
-int	ft_strclen(char	*str, char c)
+size_t	ft_strclen(char	*str, char c)
 {
 	size_t	i;
 
@@ -56,6 +56,7 @@ int	ft_strclen(char	*str, char c)
 		i++;
 	return (i);
 }
+
 int	find_newline(char *str)
 {
 	size_t	i;
