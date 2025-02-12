@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libgnl.h"
+#include "get_next_line.h"
 #include <stdio.h>
 
 char	*read_to_stash(int fd, char *stash);
